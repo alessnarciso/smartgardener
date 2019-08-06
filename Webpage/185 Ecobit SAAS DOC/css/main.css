@@ -57,6 +57,11 @@ section p {
   line-height: 28px;
 }
 
+.navbar-brand
+{
+  font-size: 500px !important;
+}
+
 .clearfix:before,
 .clearfix:after {
     content: " ";
