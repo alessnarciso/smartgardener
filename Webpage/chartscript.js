@@ -1,31 +1,3 @@
-//let myChart = document.getElementById('myChart').getContext('2d');
-
-    // Global Options
-    //Chart.defaults.global.defaultFontFamily = 'Lato';
-    //Chart.defaults.global.defaultFontSize = 18;
-    /*
-    let moistureChart = new Chart('myChart', {
-        type:'bar', //bar, horizontal bar, pie, line, dougnut, radar, polarArea
-        data:{
-           labels:['RoseGarden', 'Nitobe Garden', 'Macleod Bushes'],
-           datasets:[{
-                label:'Percentage of Water by Weight',
-                data:[13,16,18],
-                backgroundColor:[
-                    'blue',
-                    'red',
-                    'green'
-                ],
-                borderWidth:1,
-                borderColor:'#777',
-                hoverBorderWidth:3,
-                hoverBorderColor:'#333'
-            }]
-        },
-        options:{}
-    });
-    */
-
 window.onload = function() {
     $.ajax({
         // Dummy GET endpoint
@@ -40,6 +12,7 @@ window.onload = function() {
             }
             console.log(numbers)
             var ctx = document.getElementById("myChart");
+            /*
             var lineChart = new Chart(ctx, {
               type: 'line',
               data: {
@@ -50,6 +23,41 @@ window.onload = function() {
                 }]
               }
             })
+            */
+            let moistureChart = new Chart(ctx, {
+            type:'line', //bar, horizontal bar, pie, line, dougnut, radar, polarArea
+            data:{
+                labels:['1 hrs','2 hrs','3 hrs','4 hrs','5 hrs','6 hrs','7 hrs','8 hrs','9 hrs','10 hrs','11 hrs','12 hrs','13 hrs','14 hrs','15 hrs','16 hrs','17 hrs','18 hrs','19 hrs','20 hrs','21 hrs','22 hrs','23 hrs','24 hrs'],
+                datasets:[{
+                    label:'Water by Weight',
+                    data:[
+                        99,
+                        80,
+                        76,
+                        64,
+                        53,
+                        83,
+                        46,
+                        23,
+                        5,
+                        14,
+                        20,
+                        16,
+                        54,
+                        79
+                    ],
+                    backgroundColor:[
+                        '#4AA0E2',
+                    ],
+                    borderWidth:1,
+                    borderColor:'#777',
+                    hoverBorderWidth:3,
+                    hoverBorderColor:'#333',
+
+                }]
+            },
+            options:{}
+        });
         }
     })
 }
