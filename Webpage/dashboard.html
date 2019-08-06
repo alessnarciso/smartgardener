@@ -25,6 +25,8 @@
     <!-- style CSS -->
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="chartscript.js"></script>
 </head>
 
 <body>
@@ -267,7 +269,7 @@
                 <div class="col-lg-8">
                     <div class="copyright_text">
                         <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with Colorlib
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
                     </div>
                 </div>
@@ -285,48 +287,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         </div>
     </footer>
     <!--::footer_part end::-->
-
-    <script>
-        let myChart = document.getElementById('myChart').getContext('2d');
-
-        // Global Options
-        //Chart.defaults.global.defaultFontFamily = 'Lato';
-        //Chart.defaults.global.defaultFontSize = 18;
-
-        let moistureChart = new Chart(myChart, {
-            type:'bar', //bar, horizontal bar, pie, line, dougnut, radar, polarArea
-            data:{
-                labels:['RoseGarden', 'Nitobe Garden', 'Macleod Bushes'],
-                datasets:[{
-                    label:'Percentage of Water by Weight',
-                    data:[
-                        99,
-                        80,
-                        76,
-                        64,
-                        53,
-                        83,
-                        46,
-                        23,
-                        5
-                    ],
-                    backgroundColor:[
-                        'blue',
-                        'red',
-                        'green'
-                    ],
-                    borderWidth:1,
-                    borderColor:'#777',
-                    hoverBorderWidth:3,
-                    hoverBorderColor:'#333'
-
-                }]
-            },
-            options:{}
-        });
-
-
-    </script>
 
     <!-- jquery plugins here-->
     <script src="js/jquery-1.12.1.min.js"></script>
