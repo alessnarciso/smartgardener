@@ -1,16 +1,24 @@
 window.onload = function() {
     $.ajax({
         // Dummy GET endpoint
-        url: "https://elec391group3again.free.beeceptor.com/",
+        url: "https://sjz0wzrz11.execute-api.us-west-2.amazonaws.com/prod/helloworld?&TableName=teststorage",
         method: 'GET',
         dataType: 'json',
+        headers: {
+            "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
+            "Access-Control-Allow-Credentials" : true, // Required for cookies, authorization headers with HTTPS 
+            "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
+        },
         success: function (data) {
+            console.log("HELLO");
             // Parse JSON data
             numbers = [];
+            /*
             for (var num in data) {
                 numbers.push(Number(data[num]))
             }
-            console.log(numbers)
+            */
+            console.log(data)
             var ctx = document.getElementById("myChart");
             var temptx = document.getElementById("tempChart");
             var lighttx = document.getElementById("lightChart");
