@@ -56,7 +56,31 @@ window.onload = function() {
                     borderColor:'#777',
                     hoverBorderWidth:3,
                     hoverBorderColor:'#333',
-
+                }, {
+                    label:'Water by Weight',
+                    data:[
+                        33,
+                        84,
+                        99,
+                        43,
+                        34,
+                        77,
+                        34,
+                        39,
+                        43,
+                        48,
+                        54,
+                        60,
+                        64,
+                        1
+                    ],
+                    backgroundColor:[
+                        '#eb34de',
+                    ],
+                    borderWidth:1,
+                    borderColor:'#777',
+                    hoverBorderWidth:3,
+                    hoverBorderColor:'#333',
                 }]
             },
             options:{}
@@ -69,19 +93,18 @@ window.onload = function() {
                     label:'Water by Weight',
                     data:[
                         99,
-                        80,
-                        76,
-                        64,
-                        53,
-                        83,
-                        46,
-                        23,
-                        5,
-                        14,
                         20,
-                        16,
-                        54,
-                        79
+                        43,
+                        34,
+                        80,
+                        67,
+                        30,
+                        23,
+                        56,
+                        34,
+                        38,
+                        28,
+                        18,
                     ],
                     backgroundColor:[
                         '#F3CA58',
