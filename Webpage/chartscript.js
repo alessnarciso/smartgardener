@@ -1,7 +1,7 @@
 window.onload = function() {
     $.ajax({
         // Dummy GET endpoint
-        url: "https://elec391group3.free.beeceptor.com/",
+        url: "https://elec391group3again.free.beeceptor.com/",
         method: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -163,9 +163,6 @@ window.onload = function() {
             },
             options:{}
         });
-
-
-
         }
     })
 }
