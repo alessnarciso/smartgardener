@@ -1,8 +1,8 @@
 window.onload = function() {
 
-function weatherBalloon( cityID ) {
+function weatherBalloon() {
   var key = 'c0794ec51c65c91d851ce2adead7a547';
-  fetch('https://api.openweathermap.org/data/2.5/weather?q=' + cityID + '&APPID=' + key)  
+  fetch('https://api.openweathermap.org/data/2.5/weather?id=6173331&APPID=' + key)  
   .then(function(resp) { return resp.json() }) // Convert data to json
   .then(function(w_data) {
     drawWeather(w_data);
@@ -21,10 +21,35 @@ function drawWeather( d ) {
   document.getElementById('temp').innerHTML = celcius + '&deg;';
   document.getElementById('location').innerHTML = d.name;
 }
+    // Used to bypass CORS
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
+    const key = 'c0794ec51c65c91d851ce2adead7a547';
+    const weatherurl = 'https://api.openweathermap.org/data/2.5/weather?id=6173331&APPID=' + key;
+    const weatherfetchurl = proxyurl + weatherurl;
+    // Retrieve OpenWeather API
     $.ajax({
-        // Dummy GET endpoint
-        url: "https://sjz0wzrz11.execute-api.us-west-2.amazonaws.com/prod/helloworld?&TableName=teststorage",
+            url: weatherfetchurl,
+            method: 'GET',
+            dataType: 'json',
+            headers: {
+                "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
+                "Access-Control-Allow-Credentials" : true, // Required for cookies, authorization headers with HTTPS 
+                "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
+            },
+            success: function (data) {
+                document.getElementsByClassName("current_weather")[0].innerHTML = data.weather[0].main;
+                document.getElementsByClassName("current_humidity")[0].innerHTML = data.main.humidity.toString();
+                document.getElementsByClassName("current_temperature")[0].innerHTML = data.main.temp.toString();
+                document.getElementsByClassName("current_pressure")[0].innerHTML = data.main.pressure.toString();
+            }
+        }
+    )
+
+    const dataurl = "https://sjz0wzrz11.execute-api.us-west-2.amazonaws.com/prod/helloworld?&TableName=teststorage";
+    const datafetchurl = proxyurl + dataurl;
+    $.ajax({
+        url: datafetchurl,
         method: 'GET',
         dataType: 'json',
         headers: {
@@ -33,29 +58,40 @@ function drawWeather( d ) {
             "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
         },
         success: function (data) {
-            // Parse JSON data
-            moisture = []
-            humidity = [];
-            temperature = [];
-            light = [];
+            // Chart.js Data
+            var moisture = []
+            var humidity = [];
+            var temperature = [];
+            var light = [];
+
+            // Dashboard Data
+            var last_temperature = document.getElementsByClassName("last_temperature");
+            var last_light = document.getElementsByClassName("last_light");
+            var current_weather = document.getElementsByClassName("current_weather");
+            var current_temperature = document.getElementsByClassName("current_temperature");
+            var current_humidity = document.getElementsByClassName("current_humidity");
+            var current_pressure = document.getElementsByClassName("current_pressure");
+
             // Get last 12 items
             lastTwelveItems = data.Items.slice(-12, data.Items.length);
             for (var i = 0; i < lastTwelveItems.length; i++) {
-                console.log(lastTwelveItems[i]);
                 moisture.push(lastTwelveItems[i]["moisture"]);
                 humidity.push(lastTwelveItems[i]["humidity"]);
                 temperature.push(lastTwelveItems[i]["temperature"]);
                 light.push(lastTwelveItems[i]["light"]);
             }
-            /*
-            for (var num in data) {
-                numbers.push(Number(data[num]))
-            }
-            */
+
+            // Push Dashboard Data
+            document.getElementsByClassName("last_moisture")[0].innerHTML = moisture.slice(-1)[0];
+            document.getElementsByClassName("last_humidity")[0].innerHTML = humidity.slice(-1)[0];
+            document.getElementsByClassName("last_temperature")[0].innerHTML = temperature.slice(-1)[0];
+            document.getElementsByClassName("last_light")[0].innerHTML = light.slice(-1)[0];
+
             var ctx = document.getElementById("myChart");
             var temptx = document.getElementById("tempChart");
             var lighttx = document.getElementById("lightChart");
             var humidtx = document.getElementById("humidChart");
+
             let moistureChart = new Chart(ctx, {
             type:'line', //bar, horizontal bar, pie, line, dougnut, radar, polarArea
             data:{
@@ -72,7 +108,31 @@ function drawWeather( d ) {
                     hoverBorderColor:'#333',
                 }]
             },
-            options:{}
+            options:{
+                responsive: true,
+                scales: {
+                    xAxes: [ {
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time',
+                        },
+                        ticks: {
+                            fontSize: 15
+                        }
+                    }],
+                    yAxes: [ {
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Moisture %',
+                        },
+                        ticks: {
+                            fontSize: 15
+                        }
+                    }]
+                }
+            }
         });
         let temperatureChart = new Chart(temptx, {
             type:'line', //bar, horizontal bar, pie, line, dougnut, radar, polarArea
@@ -91,7 +151,31 @@ function drawWeather( d ) {
 
                 }]
             },
-            options:{}
+            options:{
+                responsive: true,
+                scales: {
+                    xAxes: [ {
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time',
+                        },
+                        ticks: {
+                            fontSize: 15
+                        }
+                    }],
+                    yAxes: [ {
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Temperature (°C)',
+                        },
+                        ticks: {
+                            fontSize: 15
+                        }
+                    }]
+                }
+            }
         });
         let humidityChart = new Chart(humidtx, {
             type:'line', //bar, horizontal bar, pie, line, dougnut, radar, polarArea
@@ -110,7 +194,31 @@ function drawWeather( d ) {
 
                 }]
             },
-            options:{}
+            options:{
+                responsive: true,
+                scales: {
+                    xAxes: [ {
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time',
+                        },
+                        ticks: {
+                            fontSize: 15
+                        }
+                    }],
+                    yAxes: [ {
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Humidity %',
+                        },
+                        ticks: {
+                            fontSize: 15
+                        }
+                    }]
+                }
+            }
         });
         let lightChart = new Chart(lighttx, {
             type:'line', //bar, horizontal bar, pie, line, dougnut, radar, polarArea
@@ -129,7 +237,31 @@ function drawWeather( d ) {
 
                 }]
             },
-            options:{}
+            options:{
+                responsive: true,
+                scales: {
+                    xAxes: [ {
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time',
+                        },
+                        ticks: {
+                            fontSize: 15
+                        }
+                    }],
+                    yAxes: [ {
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Light %',
+                        },
+                        ticks: {
+                            fontSize: 15
+                        }
+                    }]
+                }
+            }
         });
         }
     })
