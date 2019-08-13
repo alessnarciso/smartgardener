@@ -1,26 +1,6 @@
 window.onload = function() {
 
-function weatherBalloon() {
-  var key = 'c0794ec51c65c91d851ce2adead7a547';
-  fetch('https://api.openweathermap.org/data/2.5/weather?id=6173331&APPID=' + key)  
-  .then(function(resp) { return resp.json() }) // Convert data to json
-  .then(function(w_data) {
-    drawWeather(w_data);
-    console.log(data);
-  })
-  .catch(function() {
-    // catch any errors
-  });
-}
 
-function drawWeather( d ) {
-  var celcius = Math.round(parseFloat(d.main.temp)-273.15);
-  var fahrenheit = Math.round(((parseFloat(d.main.temp)-273.15)*1.8)+32); 
-  
-  document.getElementById('description').innerHTML = d.weather[0].description;
-  document.getElementById('temp').innerHTML = celcius + '&deg;';
-  document.getElementById('location').innerHTML = d.name;
-}
     // Used to bypass CORS
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
@@ -39,14 +19,15 @@ function drawWeather( d ) {
             },
             success: function (data) {
                 document.getElementsByClassName("current_weather")[0].innerHTML = data.weather[0].main;
-                document.getElementsByClassName("current_humidity")[0].innerHTML = data.main.humidity.toString();
-                document.getElementsByClassName("current_temperature")[0].innerHTML = data.main.temp.toString();
-                document.getElementsByClassName("current_pressure")[0].innerHTML = data.main.pressure.toString();
+                document.getElementsByClassName("current_humidity")[0].innerHTML = (data.main.humidity.toString() + " %");
+                document.getElementsByClassName("current_temperature")[0].innerHTML = ((data.main.temp - 273.15).toFixed(2).toString() + " °C");
+                document.getElementsByClassName("current_pressure")[0].innerHTML = (data.main.pressure.toString() + " hPa");
             }
         }
     )
 
-    const dataurl = "https://sjz0wzrz11.execute-api.us-west-2.amazonaws.com/prod/helloworld?&TableName=teststorage";
+    const dataurl = "https://sjz0wzrz11.execute-api.us-west-2.amazonaws.com/prod/__?&TableName=__";
+    // Fill with chosen token and database name
     const datafetchurl = proxyurl + dataurl;
     $.ajax({
         url: datafetchurl,
@@ -64,14 +45,6 @@ function drawWeather( d ) {
             var temperature = [];
             var light = [];
 
-            // Dashboard Data
-            var last_temperature = document.getElementsByClassName("last_temperature");
-            var last_light = document.getElementsByClassName("last_light");
-            var current_weather = document.getElementsByClassName("current_weather");
-            var current_temperature = document.getElementsByClassName("current_temperature");
-            var current_humidity = document.getElementsByClassName("current_humidity");
-            var current_pressure = document.getElementsByClassName("current_pressure");
-
             // Get last 12 items
             lastTwelveItems = data.Items.slice(-12, data.Items.length);
             for (var i = 0; i < lastTwelveItems.length; i++) {
@@ -82,10 +55,10 @@ function drawWeather( d ) {
             }
 
             // Push Dashboard Data
-            document.getElementsByClassName("last_moisture")[0].innerHTML = moisture.slice(-1)[0];
-            document.getElementsByClassName("last_humidity")[0].innerHTML = humidity.slice(-1)[0];
-            document.getElementsByClassName("last_temperature")[0].innerHTML = temperature.slice(-1)[0];
-            document.getElementsByClassName("last_light")[0].innerHTML = light.slice(-1)[0];
+            document.getElementsByClassName("last_moisture")[0].innerHTML = (moisture.slice(-1)[0].toString() + " %");
+            document.getElementsByClassName("last_humidity")[0].innerHTML = (humidity.slice(-1)[0].toString() + " %");
+            document.getElementsByClassName("last_temperature")[0].innerHTML = (temperature.slice(-1)[0].toString() + " °C");
+            document.getElementsByClassName("last_light")[0].innerHTML = (light.slice(-1)[0].toString() + " %");
 
             var ctx = document.getElementById("myChart");
             var temptx = document.getElementById("tempChart");
@@ -97,7 +70,7 @@ function drawWeather( d ) {
             data:{
                 labels:['1 hrs','2 hrs','3 hrs','4 hrs','5 hrs','6 hrs','7 hrs','8 hrs','9 hrs','10 hrs','11 hrs','12 hrs'],
                 datasets:[{
-                    label:'Moisture',
+                    label:'Total Moisture',
                     data: moisture,
                     backgroundColor:[
                         '#4AA0E2',
@@ -109,6 +82,11 @@ function drawWeather( d ) {
                 }]
             },
             options:{
+                elements: {
+                    line: {
+                        tension: 0
+                    }
+                },
                 responsive: true,
                 scales: {
                     xAxes: [ {
@@ -118,7 +96,7 @@ function drawWeather( d ) {
                             labelString: 'Time',
                         },
                         ticks: {
-                            fontSize: 15
+                            fontSize: 15,
                         }
                     }],
                     yAxes: [ {
@@ -128,7 +106,9 @@ function drawWeather( d ) {
                             labelString: 'Moisture %',
                         },
                         ticks: {
-                            fontSize: 15
+                            fontSize: 15,
+                            min: 0,
+                            max: 100
                         }
                     }]
                 }
@@ -139,7 +119,7 @@ function drawWeather( d ) {
             data:{
                 labels:['1 hrs','2 hrs','3 hrs','4 hrs','5 hrs','6 hrs','7 hrs','8 hrs','9 hrs','10 hrs','11 hrs','12 hrs'],
                 datasets:[{
-                    label:'Temperature',
+                    label:'Total Temperature',
                     data: temperature,
                     backgroundColor:[
                         '#F3CA58',
@@ -152,6 +132,11 @@ function drawWeather( d ) {
                 }]
             },
             options:{
+                elements: {
+                    line: {
+                        tension: 0
+                    }
+                },
                 responsive: true,
                 scales: {
                     xAxes: [ {
@@ -171,7 +156,9 @@ function drawWeather( d ) {
                             labelString: 'Temperature (°C)',
                         },
                         ticks: {
-                            fontSize: 15
+                            fontSize: 15,
+                            min: 0,
+                            max: 40
                         }
                     }]
                 }
@@ -182,7 +169,7 @@ function drawWeather( d ) {
             data:{
                 labels:['1 hrs','2 hrs','3 hrs','4 hrs','5 hrs','6 hrs','7 hrs','8 hrs','9 hrs','10 hrs','11 hrs','12 hrs'],
                 datasets:[{
-                    label:'Humidity',
+                    label:'Total Humidity',
                     data: humidity,
                     backgroundColor:[
                         '#7DE55D',
@@ -195,6 +182,11 @@ function drawWeather( d ) {
                 }]
             },
             options:{
+                elements: {
+                    line: {
+                        tension: 0
+                    }
+                },
                 responsive: true,
                 scales: {
                     xAxes: [ {
@@ -214,7 +206,9 @@ function drawWeather( d ) {
                             labelString: 'Humidity %',
                         },
                         ticks: {
-                            fontSize: 15
+                            fontSize: 15,
+                            min: 0,
+                            max: 100
                         }
                     }]
                 }
@@ -225,7 +219,7 @@ function drawWeather( d ) {
             data:{
                 labels:['1 hrs','2 hrs','3 hrs','4 hrs','5 hrs','6 hrs','7 hrs','8 hrs','9 hrs','10 hrs','11 hrs','12 hrs'],
                 datasets:[{
-                    label:'Light',
+                    label:'Total Light',
                     data:light,
                     backgroundColor:[
                         '#F65353',
@@ -238,6 +232,11 @@ function drawWeather( d ) {
                 }]
             },
             options:{
+                elements: {
+                    line: {
+                        tension: 0
+                    }
+                },
                 responsive: true,
                 scales: {
                     xAxes: [ {
@@ -257,7 +256,9 @@ function drawWeather( d ) {
                             labelString: 'Light %',
                         },
                         ticks: {
-                            fontSize: 15
+                            fontSize: 15,
+                            min: 0,
+                            max: 100
                         }
                     }]
                 }
