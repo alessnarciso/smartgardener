@@ -25,6 +25,8 @@
     <!-- style CSS -->
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="chartscript.js"></script>
 </head>
 
 <body>
@@ -58,7 +60,8 @@
                 <div class="col-lg-6">
                     <div class="section_tittle text-center">
                         <h2>Detailed Garden Statistics</h2>
-                        <p>Readings displayed are measured from the span of the past 5 days</p>
+                        <p>Readings displayed are last measured up to 12 hours</p>
+                        <p>Powered by OpenWeather API</p>
                     </div>
                 </div>
             </div>
@@ -67,24 +70,64 @@
                     <div class="single_pricing_part">
                         <img src="img/icon/moisture.png" alt="">
                         <p>Moisture</p>
+                        <p class="last_moisture">Loading...</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6">
                     <div class="single_pricing_part">
-                        <img src="img/icon/humidity-mini.png" alt="">
+                        <img src="img/icon/humidity.png" alt="">
                         <p>Humidity</p>
+                        <p class="last_humidity">Loading...</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6">
                     <div class="single_pricing_part">
                         <img src="img/icon/temp.png" alt="">
                         <p>Temperature</p>
+                        <p class="last_temperature">Loading...</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6">
                     <div class="single_pricing_part">
                         <img src="img/icon/Light.png" alt="">
                         <p>Light</p>
+                        <p class="last_light">Loading...</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <p class="text-center">~</p>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <p class="text-center">~</p>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <p class="text-center">~</p>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <p class="text-center">~</p>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single_pricing_part">
+                        <p>Current Weather</p>
+                        <p class="current_weather">Loading...</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single_pricing_part">
+                        <p>Current Humidity</p>
+                        <p class="current_humidity">Loading...</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single_pricing_part">
+                        <p>Current Temperature</p>
+                        <p class="current_temperature">Loading...</p>
+                    </div>
+                </div>
+                 <div class="col-lg-3 col-sm-6">
+                    <div class="single_pricing_part">
+                        <p>Current Pressure</p>
+                        <p class="current_pressure">Loading...</p>
                     </div>
                 </div>
             </div>
@@ -97,24 +140,10 @@
     <section class="about_us section_padding">
         <div class="container">
             <div class="row align-items-center justify-content-between">
-                <div class="col-md-6 col-lg-5">
                     <div class="about_us_text">
-                        <img src="img/icon/1.png" alt="">
                         <h2>Moisture</h2>
-                        <canvas id="myChart"></canvas>
-                        <p>Saw shall light. Us their to place had creepeth day
-                            night great wher appear to. Hath, called, sea called,
-                            gathering wherein open make living Female itself
-                            gathering man. Waters and, two. Bearing. Saw she'd
-                            all let she'd lights abundantly blessed.</p>
-                        <a href="#" class="btn_2">learn more</a>
+                        <canvas id="myChart" height="400" width="1100"></canvas>
                     </div>
-                </div>
-                <div class="col-md-6 col-lg-6">
-                    <div class="learning_img">
-                        <img src="img/about_img_new.png" alt="">
-                    </div>
-                </div>
             </div>
         </div>
         <img src="img/animate_icon/Ellipse_4.png" alt="" class="feature_icon_1 custom-animation1">
@@ -125,23 +154,10 @@
     <section class="about_us right_time">
         <div class="container">
             <div class="row align-items-center justify-content-between">
-                <div class="col-md-6 col-lg-6">
-                    <div class="learning_img">
-                        <img src="img/about_img_1.png" alt="">
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-5">
                     <div class="about_us_text">
-                        <img src="img/icon/2.png" alt="">
                         <h2>Humidity</h2>
-                        <p>Saw shall light. Us their to place had creepeth day
-                            night great wher appear to. Hath, called, sea called,
-                            gathering wherein open make living Female itself
-                            gathering man. Waters and, two. Bearing. Saw she'd
-                            all let she'd lights abundantly blessed.</p>
-                        <a href="#" class="btn_2">learn more</a>
+                        <canvas id="humidChart" height="400" width="1100"></canvas>
                     </div>
-                </div>
             </div>
         </div>
         <img src="img/animate_icon/Ellipse_5.png" alt="" class="feature_icon_2 custom-animation2">
@@ -152,23 +168,10 @@
     <section class="about_us section_padding">
         <div class="container">
             <div class="row align-items-center justify-content-between">
-                <div class="col-md-6 col-lg-5">
                     <div class="about_us_text">
-                        <img src="img/icon/3.png" alt="">
                         <h2>Temperature</h2>
-                        <p>Saw shall light. Us their to place had creepeth day
-                            night great wher appear to. Hath, called, sea called,
-                            gathering wherein open make living Female itself
-                            gathering man. Waters and, two. Bearing. Saw she'd
-                            all let she'd lights abundantly blessed.</p>
-                        <a href="#" class="btn_2">learn more</a>
+                        <canvas id="tempChart" height="400" width="1100"></canvas>
                     </div>
-                </div>
-                <div class="col-md-6 col-lg-6">
-                    <div class="learning_img">
-                        <img src="img/about_img_new.png" alt="">
-                    </div>
-                </div>
             </div>
         </div>
         <img src="img/animate_icon/Ellipse_4.png" alt="" class="feature_icon_1 custom-animation1">
@@ -179,29 +182,22 @@
     <section class="about_us right_time">
         <div class="container">
             <div class="row align-items-center justify-content-between">
-                <div class="col-md-6 col-lg-6">
-                    <div class="learning_img">
-                        <img src="img/about_img_1.png" alt="">
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-5">
                     <div class="about_us_text">
-                        <img src="img/icon/4.png" alt="">
-                        <h2>Humidity</h2>
-                        <p>Saw shall light. Us their to place had creepeth day
-                            night great wher appear to. Hath, called, sea called,
-                            gathering wherein open make living Female itself
-                            gathering man. Waters and, two. Bearing. Saw she'd
-                            all let she'd lights abundantly blessed.</p>
-                        <a href="#" class="btn_2">learn more</a>
+                        <h2>Light</h2>
+                        <canvas id="lightChart" height="400" width="1100"></canvas>
                     </div>
-                </div>
             </div>
         </div>
         <img src="img/animate_icon/Ellipse_5.png" alt="" class="feature_icon_2 custom-animation2">
     </section>
     <!--::about_us part end::-->
-
+    
+    <div id="weather">
+    <div id="description"></div>
+    <h1 id="temp"></h1>
+    <div id="location"></div>
+    </div>
+    
     <!--::footer_part start::-->
     <footer class="footer_part">
         <div class="container">
@@ -209,56 +205,6 @@
                 <div class="col-sm-8 col-md-4 col-lg-4">
                     <div class="single_footer_part">
                         <a href="index.html" class="footer_logo_iner"> <img src="img/kipos-mini.png" alt="#"> </a>
-                        <p>Gathered. Under is whose you'll to make years is mat lights thing together fish made
-                            forth thirds cattle behold won't. Fourth creeping first female.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-sm-4 col-md-4 col-lg-2">
-                    <div class="single_footer_part">
-                        <h4>About Us</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="">Managed Website</a></li>
-                            <li><a href="">Manage Reputation</a></li>
-                            <li><a href="">Power Tools</a></li>
-                            <li><a href="">Marketing Service</a></li>
-                            <li><a href="">Customer Service</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-4 col-md-4 col-lg-2">
-                    <div class="single_footer_part">
-                        <h4>Quick Links</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="">Store Hours</a></li>
-                            <li><a href="">Brand Assets</a></li>
-                            <li><a href="">Investor Relations</a></li>
-                            <li><a href="">Terms of Service</a></li>
-                            <li><a href="">Privacy & Policy</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-4 col-md-4 col-lg-2">
-                    <div class="single_footer_part">
-                        <h4>My Account</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="">Press Inquiries</a></li>
-                            <li><a href="">Media Directories</a></li>
-                            <li><a href="">Investor Relations</a></li>
-                            <li><a href="">Terms of Service</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-4 col-md-3 col-lg-2">
-                    <div class="single_footer_part">
-                        <h4>Resources</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="">Application Security</a></li>
-                            <li><a href="">Software Policy</a></li>
-                            <li><a href="">Supply Chain</a></li>
-                            <li><a href="">Agencies Relation</a></li>
-                            <li><a href="">Manage Reputation</a></li>
-                        </ul>
                     </div>
                 </div>
             </div>
@@ -267,7 +213,7 @@
                 <div class="col-lg-8">
                     <div class="copyright_text">
                         <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with Colorlib
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
                     </div>
                 </div>
@@ -285,49 +231,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         </div>
     </footer>
     <!--::footer_part end::-->
-
-    <script>
-        let myChart = document.getElementById('myChart').getContext('2d');
-
-        // Global Options
-        //Chart.defaults.global.defaultFontFamily = 'Lato';
-        //Chart.defaults.global.defaultFontSize = 18;
-
-        let moistureChart = new Chart(myChart, {
-            type:'bar', //bar, horizontal bar, pie, line, dougnut, radar, polarArea
-            data:{
-                labels:['RoseGarden', 'Nitobe Garden', 'Macleod Bushes'],
-                datasets:[{
-                    label:'Percentage of Water by Weight',
-                    data:[
-                        99,
-                        80,
-                        76,
-                        64,
-                        53,
-                        83,
-                        46,
-                        23,
-                        5
-                    ],
-                    backgroundColor:[
-                        'blue',
-                        'red',
-                        'green'
-                    ],
-                    borderWidth:1,
-                    borderColor:'#777',
-                    hoverBorderWidth:3,
-                    hoverBorderColor:'#333'
-
-                }]
-            },
-            options:{}
-        });
-
-
-    </script>
-
     <!-- jquery plugins here-->
     <script src="js/jquery-1.12.1.min.js"></script>
     <!-- popper js -->
